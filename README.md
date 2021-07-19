@@ -1,10 +1,3 @@
-# oscpu-framework
-A Verilator-based framework.
+“一生一芯”项目作品
 
-Please fill your information in myinfo.txt.
-
-For example:  
-ID=202100001  
-Name=张三  
-
-Use "./build.sh -h" command under Ubunutu terminal to get the build instructions.
+基于薛臻学姐的单周期支持addi命令的cpu工程编写。
