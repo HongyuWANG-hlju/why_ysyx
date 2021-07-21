@@ -5,20 +5,20 @@ module regfile(
     input  wire clk,
 	input  wire rst,
 	
-	input  wire  [4  : 0] w_addr,
-	input  wire  [`REG_BUS] w_data,
-	input  wire 		  w_ena,
+	input  wire  [4  : 0] w_addr,//写入地址
+	input  wire  [`REG_BUS] w_data,//写入数据
+	input  wire 		  w_ena,//写使能信号
 	
-	input  wire  [4  : 0] r_addr1,
-	output reg   [`REG_BUS] r_data1,
-	input  wire 		  r_ena1,
+	input  wire  [4  : 0] r_addr1,//读地址1
+	output reg   [`REG_BUS] r_data1,//读数据1
+	input  wire 		  r_ena1,//读使能信号1
 	
-	input  wire  [4  : 0] r_addr2,
-	output reg   [`REG_BUS] r_data2,
-	input  wire 		  r_ena2
+	input  wire  [4  : 0] r_addr2,//读地址2
+	output reg   [`REG_BUS] r_data2,//读数据2
+	input  wire 		  r_ena2//读使能信号2
     );
 
-    // 32 registers
+    // 32 registers(64bit)
 	reg [`REG_BUS] 	regs[0 : 31];
 	
 	always @(posedge clk) 
@@ -58,10 +58,10 @@ module regfile(
 			regs[30] <= `ZERO_WORD;
 			regs[31] <= `ZERO_WORD;
 		end
-		else 
+		else //若复位信号为0
 		begin
-			if ((w_ena == 1'b1) && (w_addr != 5'h00))	
-				regs[w_addr] <= w_data;
+			if ((w_ena == 1'b1) && (w_addr != 5'h00))	//若使能信号为1且地址不为0：为什么不能为0？明明有寄存器为0
+				regs[w_addr] <= w_data;//对地址写入数据
 		end
 	end
 	
@@ -71,7 +71,7 @@ module regfile(
 		else if (r_ena1 == 1'b1)
 			r_data1 = regs[r_addr1];
 		else
-			r_data1 = `ZERO_WORD;
+			r_data1 = `ZERO_WORD;//若复位信号为0，但使能信号也为0，写数据归零
 	end
 	
 	always @(*) begin
