@@ -105,10 +105,8 @@ m_stage M_stage(
   .rst(rst),
   .inst_type(inst_type_o),
   .data(rd_data),
-  .w_ena(rd_w_ena),
   .w_addr(rd_w_addr),
   .m_data(m_data),
-  .m_w_ena(m_w_ena),
   .m_w_addr(m_w_addr),
   .wb_signal(wb_signal),
   .reg_wr(reg_wr)
@@ -118,10 +116,8 @@ wb_stage Wb_stage(
   .rst(rst),
   .wb_signal(wb_signal),
   .m_data(m_data),
-  .m_w_ena(m_w_ena),
   .m_w_addr(m_w_addr),
   .wb_data(rd_data),
-  .wb_ena(rd_w_ena),
   .wb_addr(rd_w_addr),
   .reg_wr(reg_wr)
 );
