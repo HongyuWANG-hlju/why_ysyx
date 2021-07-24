@@ -1,5 +1,6 @@
 
 /* verilator lint_off UNUSED */
+/* verilator lint_off UNOPTFLAT */
 //--xuezhen--
 
 `timescale 1ns / 1ps
@@ -46,6 +47,7 @@ wire [`REG_BUS]m_data;
 wire m_w_ena;
 wire [4:0]m_w_addr;
 wire wb_signal;
+wire reg_wr;
 
 if_stage If_stage(
   .clk(clk),
@@ -107,8 +109,9 @@ m_stage M_stage(
   .w_addr(rd_w_addr),
   .m_data(m_data),
   .m_w_ena(m_w_ena),
-  .m_w_addr(m_w_addr)
-  .wb_signal(wb_signal)
+  .m_w_addr(m_w_addr),
+  .wb_signal(wb_signal),
+  .reg_wr(reg_wr)
 );
 
 wb_stage Wb_stage(
@@ -119,7 +122,8 @@ wb_stage Wb_stage(
   .m_w_addr(m_w_addr),
   .wb_data(rd_data),
   .wb_ena(rd_w_ena),
-  .wb_addr(rd_w_addr)
+  .wb_addr(rd_w_addr),
+  .reg_wr(reg_wr)
 );
 
 endmodule
