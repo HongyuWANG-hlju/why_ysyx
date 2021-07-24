@@ -41,6 +41,12 @@ wire [4 : 0]inst_type_o;
 // exe_stage -> regfile
 wire [`REG_BUS]rd_data;
 
+// m_stage -> wb_stage
+wire [`REG_BUS]m_data;
+wire m_w_ena;
+wire [4:0]m_w_addr;
+wire wb_signal;
+
 if_stage If_stage(
   .clk(clk),
   .rst(rst),
@@ -91,6 +97,29 @@ regfile Regfile(
   .r_addr2(rs2_r_addr),
   .r_data2(r_data2),
   .r_ena2(rs2_r_ena)
+);
+
+m_stage M_stage(
+  .rst(rst),
+  .inst_type(inst_type_o),
+  .data(rd_data),
+  .w_ena(rd_w_ena),
+  .w_addr(rd_w_addr),
+  .m_data(m_data),
+  .m_w_ena(m_w_ena),
+  .m_w_addr(m_w_addr)
+  .wb_signal(wb_signal)
+);
+
+wb_stage Wb_stage(
+  .rst(rst),
+  .wb_signal(wb_signal),
+  .m_data(m_data),
+  .m_w_ena(m_w_ena),
+  .m_w_addr(m_w_addr),
+  .wb_data(rd_data),
+  .wb_ena(rd_w_ena),
+  .wb_addr(rd_w_addr)
 );
 
 endmodule
